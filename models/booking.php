@@ -9,9 +9,9 @@ class Booking{
      $this->conn = $db;
    }
 
-   public function createBooking($customerId, $carId, $duration, $fee){
-     $sql = "INSERT INTO booking(customer_id, car_id, duration, fee) VALUES (?, ?, ?, ?)";
-     $data = array($customerId, $carId, $duration, $fee);
+   public function createBooking($customerId, $carId, $duration){
+     $sql = "INSERT INTO booking(customer_id, car_id, duration) VALUES (?, ?, ?)";
+     $data = array($customerId, $carId, $duration);
      $statement = $this->conn->prepare($sql);
      try {
        $statment->execute($data);

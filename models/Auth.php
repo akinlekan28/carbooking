@@ -29,9 +29,9 @@ class Auth {
      $sql = "INSERT INTO customer(name, address, phone, email, password) VALUES (?, ?, ?, ?, ?)";
      $password = hash('sha256', $password);
      $data = array($customerName, $customerAddress, $customerPhone, $customerEmail, $password);
-     $statment = $this->db->prepare($sql);
+     $statement = $this->db->prepare($sql);
      try {
-       $statment->execute($data);
+       $statement->execute($data);
      } catch (Exception $e) {
            $exceptionMsg = "<p>You tried to run this sql: $sql </p><p>Exception: $e</p>";
            trigger_error($exceptionMsg);
@@ -43,9 +43,9 @@ class Auth {
     {
       $sql = "SELECT * FROM customer WHERE email = ?";
       $data = array($email);
-      $statement = $this->db->prepare($data);
+      $statement = $this->db->prepare($sql);
        try {
-       $statment->execute($data);
+       $statement->execute($data);
      } catch (Exception $e) {
            $exceptionMsg = "<p>You tried to run this sql: $sql </p><p>Exception: $e</p>";
            trigger_error($exceptionMsg);

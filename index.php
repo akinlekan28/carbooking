@@ -11,6 +11,7 @@ $RegisterIsSubmitted = isset($_POST["register"]);
 $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
 $password = filter_input(INPUT_POST, 'password', FILTER_DEFAULT);
 $registrationAlert = "";
+$loginAlert = "";
 
 if ($loginIsSubmitted) 
 {
@@ -20,8 +21,9 @@ if ($loginIsSubmitted)
     $row = $user->login( $email, $password);
 
     if($row > 0){
-      echo "user exists";
+      header("Location: booking.php");
     } else {
+      $loginAlert = "User not found";
       session_destroy();
     }
 } else {
@@ -47,7 +49,7 @@ if ($RegisterIsSubmitted)
     else {
 
     $row = $user->register($name, $address, $phone, $email, $password);
-        $registrationAlert = "Admin Successfully registered";
+        $registrationAlert = "Customer Successfully registered";
     }
 }
 
@@ -65,6 +67,8 @@ if ($RegisterIsSubmitted)
   <h1>Hello there!!!</h1>
 
   <form action="index.php" method="post">
+
+  <?php echo $loginAlert; ?> <br>
 
 <input type="email" name="email" required placeholder="Email">
 <br><br>
