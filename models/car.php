@@ -1,15 +1,19 @@
 <?php 
- class Car {
+ class Car extends DataBase {
+   // DB Stuff
    private $db;
    private $conn;
+   private $table = 'cars';
 
    public $name;
    public $models;
    public $numberPlate;
    public $fee;
+   public $created;
+  //  public $timestamp;
 
-   public function __construct($db) {
-     $this->conn = $db;
+   public function __construct() {
+     $this->conn = DataBase::connect();
    }
 
    // Create Car
@@ -18,25 +22,35 @@
       $query = 'INSERT INTO ' . 
         $this->table . ' 
         SET
-        id = :id,
-        name = :name,
-        models = :models,
-        numberPlate = :numberPlate,
-        fee = :fee ';
+          name = :name,
+          models = :models,
+          numberPlate = :numberPlate,
+          fee = :fee ';
 
         // Prepare Statement
         $stmt = $this->conn->prepare($query);
+        $this->dataMap = array(
+          "name" => $this->name,
+          "models" => $this->models,
+          "numberPlate" => $this->numberPlate,
+          "fee" => $this->fee,
+        );
 
-         // Bind data
-      $stmt->bindParam(':id', $this->id);
-      $stmt->bindParam(':name', $this->name);
-      $stmt->bindParam(':models', $this->models);
-      $stmt->bindParam(':numberPlate', $this->numberPlate);
-      $stmt->bindParam(':fee', $this->fee);
+        foreach($this->dataMap as $key => $values)
+        {
+          $stmt->bindParam(':'.$values,  htmlspecialchars(strip_tags($values)));
+        }
+          // OR
+        //   foreach($_POST as $key => $values)
+        // {
+        //   $stmt->bindParam(':'.$values,  htmlspecialchars(strip_tags($values)));
+        // }
+
+      // $stmt->bindParam(":created", $this->timestamp);
 
       // Execute query
-      if($stmt->execute() === true) {
-        echo "Record Created Successfully";
+      if($stmt->execute()) {
+        return true;
       } else {
         echo "Error creating record: " . $stmt->error;
       }
