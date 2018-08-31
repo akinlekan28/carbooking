@@ -1,5 +1,5 @@
 <?php 
- class Car {
+ class Customer {
    private $db;
    private $conn;
 
@@ -22,7 +22,7 @@
    }
 
    public function updateCustomer($customerName, $customerAddress, $customerPhone, $customerEmail, $customerId){
-      $sql = "UPDATE customer SET name = ? address = ? phone = ? email = ?  WHERE customer_id = ?";
+      $sql = "UPDATE customer SET name = ?, address = ?, phone = ?, email = ?  WHERE customer_id = ?";
       $data = array($customerName, $customerAddress, $customerPhone, $customerEmail, $customerId);
       $statement = $this->conn->prepare($sql);
      try {
